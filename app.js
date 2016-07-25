@@ -6,6 +6,8 @@ var config = require('./config');
 _.reduce(config.ids, function(p, id) {
 	return p.then(function() {
 		return extract(id);
+	}).catch(function(err) {
+		console.error(err);
 	});
 }, Promise.resolve());
 
@@ -19,15 +21,22 @@ function extract(id) {
 		uri: buildUrl(id),
 		headers: buildHeaders(id),
 		json: true,
+		gzip: true,
 	};
 
 	return rp(options).then(function(data) {
+		var unzipped = (data);
 		transformed = transform(data);
 		return load(transformed);
 	});
 }
 
 function transform(data) {
+console.log(' ');
+console.log('data:');
+console.log(data);
+console.log(' ');
+
 }
 
 function load(data) {
