@@ -71,15 +71,52 @@ console.log(parsed.races[0]);
 		thisRace.surface = race.surfaceDescription;
 
 		postTimeMills = getPostTimeMills(race.postTime);
-		// time and formattedTime are UTC (EST + 4 hours)
 		thisRace.postTime = postTimeMills;
-//		formattedTime: '17:30',
-//		sexes: 'Open',
-//		ages: '2 Year Olds',
-//		type: 'Maiden Special Weight',
-//		claim: 0,
-//		purse: 75000,
-//		wagers: [
+
+		thisRace.sexes = race.sexRestrictionDescription;
+		thisRace.ages = race.ageRestrictionDescription;
+		thisRace.type = race.raceTypeDescription;
+		thisRace.minClaim = race.minClaimPrice;
+		thisRace.maxClaim = race.maxClaimPrice;
+		thisRace.purse = race.purse;
+		thisRace.wagers = [];
+
+		var exaPos = race.wagerText.indexOf('Exacta');
+
+		var triFiftyPos = race.wagerText.indexOf('50 cent Trifecta');
+		var triPos = race.wagerText.indexOf('Trifecta');
+
+		var suptenPos = race.wagerText.indexOf('10 cent Superfecta');
+		var supFiftyPos = race.wagerText.indexOf('50 cent Superfecta');
+		var supPos = race.wagerText.indexOf('Superfecta');
+
+		var penTenPos = race.wagerText.indexOf('10 cent Pentafecta');
+		var supH5TenPos = race.wagerText.indexOf('10 cent Super High Five');
+		var shfTenPos = race.wagerText.indexOf('10 cent SHF');
+		var sh5TenPos = race.wagerText.indexOf('10 cent SH5');
+		var penFiftyPos = race.wagerText.indexOf('50 cent Pentafecta');
+		var supH5FiftyPos = race.wagerText.indexOf('50 cent Super High Five');
+		var shfFiftyPos = race.wagerText.indexOf('50 cent SHF');
+		var sh5FiftyPos = race.wagerText.indexOf('50 cent SH5');
+		var penPos = race.wagerText.indexOf('Pentafecta');
+		var supH5Pos = race.wagerText.indexOf('Super High Five');
+		var shfPos = race.wagerText.indexOf('SHF');
+		var sh5Pos = race.wagerText.indexOf('SH5');
+
+		var daiPos = race.wagerText.indexOf('Daily Double');
+		var ddPos = race.wagerText.indexOf('DD');
+
+		var pic3TwentyPos = race.wagerText.indexOf('20 cent Pick 3');
+		var p3TwentyPos = race.wagerText.indexOf('20 cent P3');
+		var pThrTwentyPos = race.wagerText.indexOf('20 cent Pick Three');
+		var pic3FiftyPos = race.wagerText.indexOf('50 cent Pick 3');
+		var p3FiftyPos = race.wagerText.indexOf('50 cent P3');
+		var pThrFiftyPos = race.wagerText.indexOf('50 cent Pick Three');
+		var pic3Pos = race.wagerText.indexOf('Pick 3');
+		var p3Pos = race.wagerText.indexOf('P3');
+		var pThPos = race.wagerText.indexOf('Pick Three');
+
+
 		track.races.push(thisRace);
 	});
 console.log(' ');
@@ -172,5 +209,6 @@ function getPostTimeMills(postTime) {
 		0, 
 		0
 	);
+	// return milliseconds converted to UTC (EST + 4 hours)
 	return postTimeObj.getTime() + 14400000;
 }
