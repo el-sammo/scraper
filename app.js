@@ -1,6 +1,7 @@
 var rp = require('request-promise');
 var Promise = require('bluebird');
 var _ = require('lodash');
+var fs = require('fs');
 var config = require('./config');
 
 _.reduce(config.ids, function(p, id) {
@@ -17,17 +18,35 @@ _.reduce(config.ids, function(p, id) {
 ///
 
 function extract(id) {
-	var options = {
-		uri: buildUrl(id),
-		headers: buildHeaders(id),
-		json: true,
-		gzip: true,
-	};
+	var filePath = config.filePath + id + buildDate();
+	return fs.readFile(filePath, {encoding: 'utf-8'}, function(err, data) {
+		if(!err) {
+console.log(' ');
+console.log(filePath + ' found');
+			transformed = transform(data);
+			return load(transformed);
+		} else {
+console.log(' ');
+console.log(filePath + ' not found');
+			var options = {
+				uri: buildUrl(id),
+				headers: buildHeaders(id),
+				json: true,
+				gzip: true,
+			};
 
-	return rp(options).then(function(data) {
-		var unzipped = (data);
-		transformed = transform(data);
-		return load(transformed);
+			return rp(options).then(function(data) {
+				return fs.writeFile(filePath, JSON.stringify(data), function(err) {
+					if(err) {
+console.error(err);
+						return;
+					} else {
+						transformed = transform(data);
+						return load(transformed);
+					}
+				}); 
+			});
+		}
 	});
 }
 
@@ -35,7 +54,6 @@ function transform(data) {
 console.log(' ');
 console.log('data:');
 console.log(data);
-console.log(' ');
 
 }
 
