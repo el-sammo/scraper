@@ -357,30 +357,57 @@ function transform(data, fromFile) {
 		}
 
 		thisRace.entries = [];
-
+		var coupled = [];
 		race.runners.forEach(function(runner) {
-			var thisRunner = {};
-			thisRunner.number = runner.programNumberStripped;
-			thisRunner.post = runner.postPos;
+			if(coupled.indexOf(runner.coupledType) < 0) {
+				var thisRunner = {};
+				thisRunner.number = runner.programNumberStripped;
+				thisRunner.post = runner.postPos;
 
-			var active = true;
-			if(runner.scratchIndicator !== 'N') {
-				active = false;
+				var active = true;
+				if(runner.scratchIndicator !== 'N') {
+					active = false;
+				}
+
+				thisRunner.active = active;
+				thisRunner.name = runner.horseName;
+				thisRunner.jockey = runner.jockey.firstNameInitial + '. ' + runner.jockey.lastName;
+				thisRunner.weight = runner.weight;
+				thisRunner.trainer = runner.trainer.firstNameInitial + '. ' + runner.trainer.lastName;
+				thisRunner.claim = runner.ClaimingDisplay;
+				thisRunner.meds = runner.medication;
+				thisRunner.equip = runner.equipment;
+				thisRunner.ml = runner.morningLineOdds;
+
+				if(runner.coupledType) {
+					thisRunner.coupledType = runner.coupledType;
+					race.runners.forEach(function(altRunner) {
+						if((thisRunner.coupledType === altRunner.coupledType) &&
+						(thisRunner.programNumber !== altRunner.programNumber)) {
+							thisRunner.altRunner = {};
+							thisRunner.altRunner.number = altRunner.programNumber;
+							thisRunner.altRunner.post = altRunner.postPos;
+
+							var active = true;
+							if(altRunner.scratchIndicator !== 'N') {
+								active = false;
+							}
+
+							thisRunner.altRunner.active = active;
+							thisRunner.altRunner.name = altRunner.horseName;
+							thisRunner.altRunner.jockey = altRunner.jockey.firstNameInitial + '. ' + altRunner.jockey.lastName;
+							thisRunner.altRunner.weight = altRunner.weight;
+							thisRunner.altRunner.trainer = altRunner.trainer.firstNameInitial + '. ' + altRunner.trainer.lastName;
+							thisRunner.altRunner.claim = altRunner.ClaimingDisplay;
+							thisRunner.altRunner.meds = altRunner.medication;
+							thisRunner.altRunner.equip = altRunner.equipment;
+							thisRunner.altRunner.ml = altRunner.morningLineOdds;
+							coupled.push(runner.coupledType);
+						}
+					});
+				}
+				thisRace.entries.push(thisRunner);
 			}
-
-			thisRunner.active = active;
-			thisRunner.name = runner.horseName;
-			thisRunner.jockey = runner.jockey.firstNameInitial + '. ' + runner.jockey.lastName;
-			thisRunner.weight = runner.weight;
-			thisRunner.trainer = runner.trainer.firstNameInitial + '. ' + runner.trainer.lastName;
-			thisRunner.claim = runner.ClaimingDisplay;
-			thisRunner.meds = runner.medication;
-			thisRunner.equip = runner.equipment;
-			thisRunner.ml = runner.morningLineOdds;
-
-			thisRunner.coupledType = runner.coupledType;
-
-			thisRace.entries.push(thisRunner);
 		});
 
 		thisRace.closed = false;
