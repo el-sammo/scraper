@@ -98,13 +98,15 @@ function transform(data, fromFile) {
 		];
 
 		var exaOnePos = race.wagerText.indexOf('$1 Exacta');
+		var EXAOnePos = race.wagerText.indexOf('$1 EXACTA');
 		var exaPos = race.wagerText.indexOf('Exacta');
+		var EXAPos = race.wagerText.indexOf('EXATCA');
 		var exacta = {abbrev: 'Exacta', wager: 'Exacta'}
-		if(exaOnePos > -1) {
+		if(exaOnePos > -1 || EXAOnePos > -1) {
 			exacta.min = 1;
 			thisRace.wagers.push(exacta);
 		} else {
-			if(exaPos > -1) {
+			if(exaPos > -1 || EXAOnePos > -1) {
 				exacta.min = 2;
 				thisRace.wagers.push(exacta);
 			}
@@ -112,12 +114,13 @@ function transform(data, fromFile) {
 
 		var triFiftyPos = race.wagerText.indexOf('50 cent Trifecta');
 		var triPos = race.wagerText.indexOf('Trifecta');
+		var TRIPos = race.wagerText.indexOf('TRIFECTA');
 		var trifecta = {abbrev: 'Tri', wager: 'Trifecta'}
 		if(triFiftyPos > -1) {
 			trifecta.min = .5;
 			thisRace.wagers.push(trifecta);
 		} else {
-			if(triPos > -1) {
+			if(triPos > -1 || TRIPos > -1) {
 				trifecta.min = 1;
 				thisRace.wagers.push(trifecta);
 			}
@@ -126,6 +129,7 @@ function transform(data, fromFile) {
 		var supTenPos = race.wagerText.indexOf('10 cent Superfecta');
 		var supFiftyPos = race.wagerText.indexOf('50 cent Superfecta');
 		var supPos = race.wagerText.indexOf('Superfecta');
+		var SUPPos = race.wagerText.indexOf('SUPERFECTA');
 		var superfecta = {abbrev: 'Super', wager: 'Superfecta'}
 		if(supTenPos > -1) {
 			superfecta.min = .1;
@@ -135,7 +139,7 @@ function transform(data, fromFile) {
 				superfecta.min = .5;
 				thisRace.wagers.push(superfecta);
 			} else {
-				if(supPos > -1) {
+				if(supPos > -1 || SUPPos > -1) {
 					superfecta.min = 1;
 					thisRace.wagers.push(superfecta);
 				}
@@ -151,9 +155,13 @@ function transform(data, fromFile) {
 		var shfFiftyPos = race.wagerText.indexOf('50 cent SHF');
 		var sh5FiftyPos = race.wagerText.indexOf('50 cent SH5');
 		var penPos = race.wagerText.indexOf('Pentafecta');
+		var PENPos = race.wagerText.indexOf('PENTAFECTA');
 		var supH5Pos = race.wagerText.indexOf('Super High Five');
-		var shfPos = race.wagerText.indexOf('SHF');
-		var sh5Pos = race.wagerText.indexOf('SH5');
+		var SUPH5Pos = race.wagerText.indexOf('SUPER HIGH FIVE');
+		var shfPos = race.wagerText.indexOf('shf');
+		var SHFPos = race.wagerText.indexOf('SHF');
+		var sh5Pos = race.wagerText.indexOf('sh5');
+		var SH5Pos = race.wagerText.indexOf('SH5');
 		var pentafecta = {abbrev: 'SH5', wager: 'Pentafecta'}
 		if(
 			penTenPos > -1 ||
@@ -174,10 +182,10 @@ function transform(data, fromFile) {
 				thisRace.wagers.push(pentafecta);
 			} else {
 				if(
-					penPos > -1 ||
-					supH5Pos > -1 ||
-					shfPos > -1 ||
-					sh5Pos > -1
+					penPos > -1 || PENPos > -1 ||
+					supH5Pos > -1 || SUPPos > -1 ||
+					shfPos > -1 || SHFPos > -1 ||
+					sh5Pos > -1 || SH5Pos > -1 
 				) {
 					pentafecta.min = 1;
 					thisRace.wagers.push(pentafecta);
@@ -186,11 +194,13 @@ function transform(data, fromFile) {
 		}
 
 		var daiPos = race.wagerText.indexOf('Double');
-		var ddPos = race.wagerText.indexOf('DD');
+		var DAIPos = race.wagerText.indexOf('DOUBLE');
+		var ddPos = race.wagerText.indexOf('dd');
+		var DDPos = race.wagerText.indexOf('DD');
 		var daily = {abbrev: 'DD', wager: 'Daily Double'}
 		if(
-			daiPos > -1 ||
-			ddPos > -1
+			daiPos > -1 || DAIPos > -1 ||
+			ddPos > -1 || DDPos > -1
 		) {
 			daily.min = 1;
 			thisRace.wagers.push(daily);
@@ -203,8 +213,10 @@ function transform(data, fromFile) {
 		var p3FiftyPos = race.wagerText.indexOf('50 cent P3');
 		var pThrFiftyPos = race.wagerText.indexOf('50 cent Pick Three');
 		var pic3Pos = race.wagerText.indexOf('Pick 3');
+		var PIC3Pos = race.wagerText.indexOf('PICK 3');
 		var p3Pos = race.wagerText.indexOf('P3');
 		var pThrPos = race.wagerText.indexOf('Pick Three');
+		var PTHRPos = race.wagerText.indexOf('PICK THREE');
 		var pick3 = {abbrev: 'P3', wager: 'Pick 3'}
 		if(
 			pic3TwentyPos > -1 ||
@@ -223,9 +235,9 @@ function transform(data, fromFile) {
 				thisRace.wagers.push(pick3);
 			} else {
 				if(
-					pic3Pos > -1 ||
+					pic3Pos > -1 || PIC3Pos > -1 ||
 					p3Pos > -1 ||
-					pThrPos > -1
+					pThrPos > -1 || PTHRPos > -1
 				) {
 					pick3.min = 1;
 					thisRace.wagers.push(pick3);
@@ -240,8 +252,10 @@ function transform(data, fromFile) {
 		var p4FiftyPos = race.wagerText.indexOf('50 cent P4');
 		var pFrFiftyPos = race.wagerText.indexOf('50 cent Pick Four');
 		var pic4Pos = race.wagerText.indexOf('Pick 4');
+		var PIC4Pos = race.wagerText.indexOf('PICK 4');
 		var p4Pos = race.wagerText.indexOf('P4');
 		var pFrPos = race.wagerText.indexOf('Pick Four');
+		var PFRPos = race.wagerText.indexOf('PICK FOUR');
 		var pick4 = {abbrev: 'P4', wager: 'Pick 4'}
 		if(
 			pic4TwentyPos > -1 ||
@@ -260,9 +274,9 @@ function transform(data, fromFile) {
 				thisRace.wagers.push(pick4);
 			} else {
 				if(
-					pic4Pos > -1 ||
+					pic4Pos > -1 || PIC4Pos > -1 ||
 					p4Pos > -1 ||
-					pFrPos > -1
+					pFrPos > -1 || PFRPos > -1
 				) {
 					pick4.min = 1;
 					thisRace.wagers.push(pick4);
@@ -277,8 +291,10 @@ function transform(data, fromFile) {
 		var p5FiftyPos = race.wagerText.indexOf('50 cent P5');
 		var pFivFiftyPos = race.wagerText.indexOf('50 cent Pick Five');
 		var pic5Pos = race.wagerText.indexOf('Pick 5');
+		var PIC5Pos = race.wagerText.indexOf('PICK 5');
 		var p5Pos = race.wagerText.indexOf('P5');
 		var pFivPos = race.wagerText.indexOf('Pick Five');
+		var PFIVPos = race.wagerText.indexOf('PICK FIVE');
 		var pick5 = {abbrev: 'P5', wager: 'Pick 5'}
 		if(
 			pic5TwentyPos > -1 ||
@@ -297,9 +313,9 @@ function transform(data, fromFile) {
 				thisRace.wagers.push(pick5);
 			} else {
 				if(
-					pic5Pos > -1 ||
+					pic5Pos > -1 || PIC5Pos > -1 ||
 					p5Pos > -1 ||
-					pFivPos > -1
+					pFivPos > -1 || PFIVPos > -1
 				) {
 					pick5.min = 1;
 					thisRace.wagers.push(pick5);
@@ -314,11 +330,15 @@ function transform(data, fromFile) {
 		var p6FiftyPos = race.wagerText.indexOf('50 cent P6');
 		var pSixFiftyPos = race.wagerText.indexOf('50 cent Pick Six');
 		var pic6OnePos = race.wagerText.indexOf('$1 Pick 6');
+		var PIC6OnePos = race.wagerText.indexOf('$1 PICK 6');
 		var p6OnePos = race.wagerText.indexOf('$1 P6');
 		var pSixOnePos = race.wagerText.indexOf('$1 Pick Six');
+		var PSIXOnePos = race.wagerText.indexOf('$1 PICK SIX');
 		var pic6Pos = race.wagerText.indexOf('Pick 6');
+		var PIC6Pos = race.wagerText.indexOf('PICK 6');
 		var p6Pos = race.wagerText.indexOf('P6');
 		var pSixPos = race.wagerText.indexOf('Pick Six');
+		var PSIXPos = race.wagerText.indexOf('PICK SIX');
 		var pick6 = {abbrev: 'P6', wager: 'Pick 6'}
 		if(
 			pic6TwentyPos > -1 ||
@@ -337,17 +357,17 @@ function transform(data, fromFile) {
 				thisRace.wagers.push(pick6);
 			} else {
 				if(
-					pic6OnePos > -1 ||
+					pic6OnePos > -1 || PIC6OnePos > -1 ||
 					p6OnePos > -1 ||
-					pSixOnePos > -1
+					pSixOnePos > -1 || PSIXOnePos > -1
 				) {
 					pick6.min = 1;
 					thisRace.wagers.push(pick6);
 				} else {
 					if(
-						pic6Pos > -1 ||
+						pic6Pos > -1 || PIC6Pos > -1 ||
 						p6Pos > -1 ||
-						pSixPos > -1
+						pSixPos > -1 || PSIXPos > -1
 					) {
 						pick6.min = 2;
 						thisRace.wagers.push(pick6);
