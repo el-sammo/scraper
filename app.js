@@ -24,7 +24,7 @@ function extract(id) {
 		if(!err) {
 			fromFile = true;
 			transformed = transform(data, fromFile);
-			return load(transformed);
+			return load(id, transformed);
 		} else {
 			var options = {
 				uri: buildUrl(id),
@@ -40,7 +40,7 @@ console.error(err);
 						return;
 					} else {
 						transformed = transform(data, fromFile);
-						return load(transformed);
+						return load(id, transformed);
 					}
 				}); 
 			});
@@ -56,11 +56,11 @@ function transform(data, fromFile) {
 		parsed = data;
 	}
 
-console.log(' ');
-console.log('parsed.races[0]:');
-console.log(parsed.races[0]);
 	var track = {};
 	track.name = getName(parsed.races[0].raceKey.trackId);
+	
+	var datePcs = buildDate().split('-');
+	track.raceDate = parseInt(datePcs[2] + datePcs[0] + datePcs[1]);
 	track.races = [];
 
 	parsed.races.forEach(function(race) {
@@ -387,12 +387,57 @@ console.log(parsed.races[0]);
 
 		track.races.push(thisRace);
 	});
-//console.log(' ');
-//console.log('track:');
-//console.log(track);
+	return track;
 }
 
-function load(data) {
+function load(id, data) {
+	var filePath = config.filePath + '../load.js';
+
+	var fileContents = '';
+
+	fileContents += 'db = new Mongo().getDB(\'horse\');\n';
+	fileContents += 'db.trds.insert('+JSON.stringify(data)+');\n';
+	fileContents += 'var cursor = db.trds.find({name: \''+data.name+'\', raceDate: '+data.raceDate+'});\n';
+	fileContents += 'var assocId = \'\';\n';
+	fileContents += 'while(cursor.hasNext()) {\n';
+	fileContents += 'var trdData = cursor.next();\n';
+	fileContents += 'var trackId = trdData._id;\n';
+	fileContents += 'assocId = trackId.str;\n';
+	fileContents += 'var startTime = trdData.races[0].postTime;\n';
+	fileContents += 'var assocTrackId = assocId;\n';
+	fileContents += 'var tournamentName = trdData.name + \' Daily\';\n';
+	fileContents += 'var tournyDate = trdData.raceDate;\n';
+	fileContents += 'var tournamentMax = 100;\n';
+	fileContents += 'var entryFee = 10;\n';
+	fileContents += 'var siteFee = 1;\n';
+	fileContents += 'var closed = false;\n';
+	fileContents += 'var customers = [\n';
+	fileContents += '{customerId: \'577852a3ab57f32438ebe6ab\', credits: 500},\n';
+	fileContents += '{customerId: \'5789268eb0a218495caddcb7\', credits: 500},\n';
+	fileContents += '{customerId: \'57785346ab57f32438ebe6ad\', credits: 500},\n';
+	fileContents += '{customerId: \'5765aec37e7e6e33c9203f4d\', credits: 500}\n';
+	fileContents += '];\n';
+	fileContents += 'db.tournaments.insert({\n';
+	fileContents += 'assocTrackId: assocTrackId,\n';
+	fileContents += 'name: tournamentName,\n';
+	fileContents += 'tournyDate: tournyDate,\n';
+	fileContents += 'max: tournamentMax,\n';
+	fileContents += 'entryFee: entryFee,\n';
+	fileContents += 'siteFee: siteFee,\n';
+	fileContents += 'startTime: startTime,\n';
+	fileContents += 'closed: closed,\n';
+	fileContents += 'customers: customers\n';
+	fileContents += '});\n';
+	fileContents += '}\n';
+
+
+	return fs.writeFile(filePath, fileContents, function(err) {
+		if(err) {
+return console.log(err);
+		} else {
+			return;
+		}
+	}); 
 }
 
 
@@ -428,6 +473,8 @@ function buildHeaders(id) {
 
 function getName(code) {
 	var nameMap = [];
+	nameMap['FL'] = 'Finger Lakes';
+	nameMap['MNR'] = 'Mountaineer';
 	nameMap['PRX'] = 'Parx';
 	return nameMap[code];
 }
@@ -458,7 +505,7 @@ function convertDist(dist) {
 }
 
 function getPostTimeMills(postTime) {
-	var raceDatePcs = buildDate().split('-');
+	var datePcs = buildDate().split('-');
 	var timePcs = postTime.split(' ');
 	var hourMinutePcs = timePcs[0].split(':');
 	var hour = parseInt(hourMinutePcs[0]);
@@ -470,9 +517,9 @@ function getPostTimeMills(postTime) {
 		}
 	}
 	var postTimeObj = new Date(
-		raceDatePcs[2], 
-		raceDatePcs[0],
-		raceDatePcs[1],
+		datePcs[2], 
+		datePcs[0],
+		datePcs[1],
 		hour, 
 		minute, 
 		0, 
