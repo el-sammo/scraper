@@ -544,7 +544,7 @@ function getPostTimeMills(postTime) {
 	}
 	var postTimeObj = new Date(
 		datePcs[2], 
-		datePcs[0],
+		datePcs[0] - 1, // <-- subtract one to account for the date object starting at '0' for month
 		datePcs[1],
 		hour, 
 		minute, 
