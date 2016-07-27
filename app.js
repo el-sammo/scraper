@@ -66,8 +66,7 @@ function transform(data, fromFile) {
 	parsed.races.forEach(function(race) {
 		var thisRace = {};
 		thisRace.number = race.raceKey.raceNumber;
-		thisRace.distance = race.distanceValue;
-		thisRace.formattedDistance = convertDist(race.distanceValue);
+		thisRace.distance = race.distanceDescription;
 		thisRace.surface = race.surfaceDescription;
 
 		postTimeMills = getPostTimeMills(race.postTime);
@@ -100,7 +99,7 @@ function transform(data, fromFile) {
 		var exaOnePos = race.wagerText.indexOf('$1 Exacta');
 		var EXAOnePos = race.wagerText.indexOf('$1 EXACTA');
 		var exaPos = race.wagerText.indexOf('Exacta');
-		var EXAPos = race.wagerText.indexOf('EXATCA');
+		var EXAPos = race.wagerText.indexOf('EXACTA');
 		var exacta = {abbrev: 'Exacta', wager: 'Exacta'}
 		if(exaOnePos > -1 || EXAOnePos > -1) {
 			exacta.min = 1;
@@ -183,7 +182,7 @@ function transform(data, fromFile) {
 			} else {
 				if(
 					penPos > -1 || PENPos > -1 ||
-					supH5Pos > -1 || SUPPos > -1 ||
+					supH5Pos > -1 || SUPH5Pos > -1 ||
 					shfPos > -1 || SHFPos > -1 ||
 					sh5Pos > -1 || SH5Pos > -1 
 				) {
@@ -520,35 +519,15 @@ function buildHeaders(id) {
 
 function getName(code) {
 	var nameMap = [];
+	nameMap['DMR'] = 'Del Mar';
+	nameMap['EVD'] = 'Evangeline Downs';
 	nameMap['FL'] = 'Finger Lakes';
 	nameMap['MNR'] = 'Mountaineer';
+	nameMap['PEN'] = 'Penn National';
 	nameMap['PRX'] = 'Parx';
+	nameMap['SAR'] = 'Saratoga';
+	nameMap['WO'] = 'Woodbine';
 	return nameMap[code];
-}
-
-function convertDist(dist) {
-	var distMap = [];
-	distMap[.5625] = '4 1/2F',
-	distMap[5] = '5F',
-	distMap[5.5] = '5 1/2F',
-	distMap[6] = '6F',
-	distMap[6.5] = '6 1/2F',
-	distMap[7] = '7F',
-	distMap[7.5] = '7 1/2F',
-	distMap[8] = '1M',
-	distMap[8.25] = '1 1/16M',
-	distMap[8.5] = '1 1/2F',
-	distMap[1.070] = '1M 70Y',
-	distMap[9] = '1 1/8M',
-	distMap[10] = '1 1/4M',
-	distMap[11] = '1 3/8M',
-	distMap[12] = '1 1/2M',
-	distMap[13] = '1 5/8M',
-	distMap[14] = '1 3/4M',
-	distMap[15] = '1 7/8M',
-	distMap[16] = '2M'
-
-	return distMap[dist];
 }
 
 function getPostTimeMills(postTime) {
