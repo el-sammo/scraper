@@ -441,40 +441,71 @@ function load(id, data) {
 
 	var fileContents = '';
 
+	fileContents += 'var customers = [\n';
+	fileContents += '  \'577852a3ab57f32438ebe6ab\',\n';
+	fileContents += '  \'5789268eb0a218495caddcb7\',\n';
+	fileContents += '  \'57785346ab57f32438ebe6ad\',\n';
+	fileContents += '];\n';
+	fileContents += '\n';
+
+	fileContents += 'var customersCredits = [\n';
+	fileContents += '  {customerId: \'577852a3ab57f32438ebe6ab\', credits: 500},\n';
+	fileContents += '  {customerId: \'5789268eb0a218495caddcb7\', credits: 500},\n';
+	fileContents += '  {customerId: \'57785346ab57f32438ebe6ad\', credits: 500},\n';
+	fileContents += '];\n';
+	fileContents += '\n';
+
 	fileContents += 'db = new Mongo().getDB(\'horse\');\n';
 	fileContents += 'db.trds.insert('+JSON.stringify(data)+');\n';
-	fileContents += 'var cursor = db.trds.find({name: \''+data.name+'\', raceDate: '+data.raceDate+'});\n';
+	fileContents += '\n';
+
 	fileContents += 'var assocId = \'\';\n';
+	fileContents += 'var tournamentName = \'\';\n';
+	fileContents += 'var tournyDate = \'\';\n';
+	fileContents += 'var cursor = db.trds.find({name: \''+data.name+'\', raceDate: '+data.raceDate+'});\n';
+	fileContents += '\n';
+
 	fileContents += 'while(cursor.hasNext()) {\n';
-	fileContents += 'var trdData = cursor.next();\n';
-	fileContents += 'var trackId = trdData._id;\n';
-	fileContents += 'assocId = trackId.str;\n';
-	fileContents += 'var startTime = trdData.races[0].postTime;\n';
-	fileContents += 'var assocTrackId = assocId;\n';
-	fileContents += 'var tournamentName = trdData.name + \' Daily\';\n';
-	fileContents += 'var tournyDate = trdData.raceDate;\n';
-	fileContents += 'var tournamentMax = 100;\n';
-	fileContents += 'var entryFee = 10;\n';
-	fileContents += 'var siteFee = 1;\n';
-	fileContents += 'var closed = false;\n';
-	fileContents += 'var customers = [\n';
-	fileContents += '{customerId: \'577852a3ab57f32438ebe6ab\', credits: 500},\n';
-	fileContents += '{customerId: \'5789268eb0a218495caddcb7\', credits: 500},\n';
-	fileContents += '{customerId: \'57785346ab57f32438ebe6ad\', credits: 500},\n';
-	fileContents += '{customerId: \'5765aec37e7e6e33c9203f4d\', credits: 500}\n';
-	fileContents += '];\n';
-	fileContents += 'db.tournaments.insert({\n';
-	fileContents += 'assocTrackId: assocTrackId,\n';
-	fileContents += 'name: tournamentName,\n';
-	fileContents += 'tournyDate: tournyDate,\n';
-	fileContents += 'max: tournamentMax,\n';
-	fileContents += 'entryFee: entryFee,\n';
-	fileContents += 'siteFee: siteFee,\n';
-	fileContents += 'startTime: startTime,\n';
-	fileContents += 'closed: closed,\n';
-	fileContents += 'customers: customers\n';
-	fileContents += '});\n';
+	fileContents += '  var trdData = cursor.next();\n';
+	fileContents += '  var trackId = trdData._id;\n';
+	fileContents += '  assocId = trackId.str;\n';
+	fileContents += '  var startTime = trdData.races[0].postTime;\n';
+	fileContents += '  var assocTrackId = assocId;\n';
+	fileContents += '  tournamentName = trdData.name + \' Daily\';\n';
+	fileContents += '  tournyDate = trdData.raceDate;\n';
+	fileContents += '  var tournamentMax = 100;\n';
+	fileContents += '  var entryFee = 10;\n';
+	fileContents += '  var siteFee = 1;\n';
+	fileContents += '  var closed = false;\n';
+	fileContents += '\n';
+
+	fileContents += '  db.tournaments.insert({\n';
+	fileContents += '    assocTrackId: assocTrackId,\n';
+	fileContents += '    name: tournamentName,\n';
+	fileContents += '    tournyDate: tournyDate,\n';
+	fileContents += '    max: tournamentMax,\n';
+	fileContents += '    entryFee: entryFee,\n';
+	fileContents += '    siteFee: siteFee,\n';
+	fileContents += '    startTime: startTime,\n';
+	fileContents += '    closed: closed,\n';
+	fileContents += '    customers: customers\n';
+	fileContents += '  });\n';
 	fileContents += '}\n';
+	fileContents += '\n';
+
+	fileContents += 'var newCursor = db.tournaments.find({name: \''+data.name+' Daily\', tournyDate: '+data.raceDate+'});\n';
+	fileContents += '\n';
+
+	fileContents += 'while(newCursor.hasNext()) {\n';
+	fileContents += '  var tournyData = newCursor.next();\n';
+	fileContents += '  var tournamentId = tournyData._id.str;\n';
+	fileContents += 'print(\'tournamentId: \'+tournamentId);\n';
+	fileContents += '  db.tournamentstandings.insert({\n';
+	fileContents += '    tournamentId: tournamentId,\n';
+	fileContents += '    customers: customersCredits\n';
+	fileContents += '  });\n';
+	fileContents += '};\n';
+	fileContents += '\n';
 
 
 	return fs.writeFile(filePath, fileContents, function(err) {
@@ -552,5 +583,5 @@ function getPostTimeMills(postTime) {
 		0
 	);
 	// return milliseconds converted to UTC (EST + 4 hours)
-	return postTimeObj.getTime() + 14400000;
+	return postTimeObj.getTime() + 14405000;
 }
