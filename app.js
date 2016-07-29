@@ -126,19 +126,22 @@ function transform(data, fromFile) {
 		}
 
 		var supTenPos = race.wagerText.indexOf('10 cent Superfecta');
+		var SupTenPos = race.wagerText.indexOf('10 cent Super');
 		var supFiftyPos = race.wagerText.indexOf('50 cent Superfecta');
+		var SupFiftyPos = race.wagerText.indexOf('50 cent Super');
 		var supPos = race.wagerText.indexOf('Superfecta');
+		var SupPos = race.wagerText.indexOf('Super');
 		var SUPPos = race.wagerText.indexOf('SUPERFECTA');
 		var superfecta = {abbrev: 'Super', wager: 'Superfecta'}
-		if(supTenPos > -1) {
+		if(supTenPos > -1 || SupTenPos > -1) {
 			superfecta.min = .1;
 			thisRace.wagers.push(superfecta);
 		} else {
-			if(supFiftyPos > -1) {
+			if(supFiftyPos > -1 || SupFiftyPos > -1) {
 				superfecta.min = .5;
 				thisRace.wagers.push(superfecta);
 			} else {
-				if(supPos > -1 || SUPPos > -1) {
+				if(supPos > -1 || SupPos > -1 || SUPPos > -1) {
 					superfecta.min = 1;
 					thisRace.wagers.push(superfecta);
 				}
@@ -550,13 +553,19 @@ function buildHeaders(id) {
 
 function getName(code) {
 	var nameMap = [];
+	nameMap['CT'] = 'Charles Town';
 	nameMap['DMR'] = 'Del Mar';
+	nameMap['EMD'] = 'Emerald Downs';
 	nameMap['EVD'] = 'Evangeline Downs';
 	nameMap['FL'] = 'Finger Lakes';
+	nameMap['GP'] = 'Gulfstream Park';
+	nameMap['LA'] = 'Los Alamitos';
+	nameMap['LAD'] = 'Louisiana Downs';
 	nameMap['MNR'] = 'Mountaineer';
 	nameMap['PEN'] = 'Penn National';
 	nameMap['PRX'] = 'Parx';
 	nameMap['SAR'] = 'Saratoga';
+	nameMap['SR'] = 'Santa Rosa';
 	nameMap['WO'] = 'Woodbine';
 	return nameMap[code];
 }
