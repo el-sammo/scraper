@@ -387,19 +387,26 @@ function transform(data, fromFile) {
 				thisRunner.post = runner.postPos;
 
 				var active = true;
-				if(runner.scratchIndicator !== 'N') {
+				if(runner.programNumberStripped.toString() === '-1') {
 					active = false;
 				}
 
 				thisRunner.active = active;
 				thisRunner.name = runner.horseName;
-				thisRunner.jockey = runner.jockey.firstNameInitial + '. ' + runner.jockey.lastName;
-				thisRunner.weight = runner.weight;
-				thisRunner.trainer = runner.trainer.firstNameInitial + '. ' + runner.trainer.lastName;
+				if(active) {
+					thisRunner.jockey = runner.jockey.firstNameInitial + '. ' + runner.jockey.lastName;
+					thisRunner.trainer = runner.trainer.firstNameInitial + '. ' + runner.trainer.lastName;
+					thisRunner.weight = runner.weight;
+					thisRunner.ml = runner.morningLineOdds;
+				} else {
+					thisRunner.jockey = 'SCRATCHED';
+					thisRunner.trainer = 'SCRATCHED';
+					thisRunner.weight = '';
+					thisRunner.ml = '-';
+				}
 				thisRunner.claim = runner.ClaimingDisplay;
 				thisRunner.meds = runner.medication;
 				thisRunner.equip = runner.equipment;
-				thisRunner.ml = runner.morningLineOdds;
 
 				if(runner.coupledType) {
 					thisRunner.coupledType = runner.coupledType;
