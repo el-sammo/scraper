@@ -582,7 +582,7 @@ function getName(code) {
 
 function getPostTimeMills(postTime) {
 console.log(' ');
-console.log('postTime: '+postTime);
+console.log('postTime: '+postTime+' (EST)');
 	var datePcs = buildDate().split('-');
 console.log('datePcs:');
 console.log(datePcs);
@@ -610,12 +610,19 @@ console.log('timeDesc: '+timeDesc);
 		0, 
 		0
 	);
-	if(timeDesc === 'AM' && (hour > 11 || hour < 5)) {
-console.log('weird conversion');
+console.log('postTimeObj:');
+console.log(postTimeObj);
+	if(timeDesc === 'AM' && hour > 11) {
+console.log('weird frequent conversion');
 		// return milliseconds converted to UTC (EST + 4 hours) + 12 hours
 		return postTimeObj.getTime() + 14405000 + 43200000;
-	} else {
-		// return milliseconds converted to UTC (EST + 4 hours)
-		return postTimeObj.getTime() + 14405000;
 	}
+	if(timeDesc === 'AM' && hour > 0 && hour < 5) {
+console.log('weird rare conversion');
+		// return milliseconds converted to UTC (EST + 4 hours) + 24 hours
+		return postTimeObj.getTime() + 14405000 + 86400000;
+	}
+console.log('standard conversion');
+	// return milliseconds converted to UTC (EST + 4 hours)
+	return postTimeObj.getTime() + 14405000;
 }
