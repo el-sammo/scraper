@@ -69,7 +69,8 @@ function transform(data, fromFile) {
 		thisRace.distance = race.distanceDescription;
 		thisRace.surface = race.surfaceDescription;
 
-		postTimeMills = getPostTimeMills(race.postTime);
+		var postTimeMills = getPostTimeMills(race.postTime);
+
 		thisRace.postTime = postTimeMills;
 
 		thisRace.sexes = race.sexRestrictionDescription;
@@ -569,6 +570,7 @@ function getName(code) {
 	nameMap['LA'] = 'Los Alamitos';
 	nameMap['LAD'] = 'Louisiana Downs';
 	nameMap['MNR'] = 'Mountaineer';
+	nameMap['MTH'] = 'Monmouth Park';
 	nameMap['PEN'] = 'Penn National';
 	nameMap['PRX'] = 'Parx';
 	nameMap['SAR'] = 'Saratoga';
@@ -598,6 +600,11 @@ function getPostTimeMills(postTime) {
 		0, 
 		0
 	);
-	// return milliseconds converted to UTC (EST + 4 hours)
-	return postTimeObj.getTime() + 14405000;
+	if(timeDesc === 'AM' && (hour > 12 && hour < 5)) {
+		// return milliseconds converted to UTC (EST + 4 hours) + 1 day
+		return postTimeObj.getTime() + 14405000 + 86400000;
+	} else {
+		// return milliseconds converted to UTC (EST + 4 hours)
+		return postTimeObj.getTime() + 14405000;
+	}
 }
