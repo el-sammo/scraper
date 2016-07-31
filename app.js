@@ -70,6 +70,7 @@ function transform(data, fromFile) {
 		thisRace.surface = race.surfaceDescription;
 
 		var postTimeMills = getPostTimeMills(race.postTime);
+console.log('postTimeMills: '+postTimeMills);
 
 		thisRace.postTime = postTimeMills;
 
@@ -580,8 +581,14 @@ function getName(code) {
 }
 
 function getPostTimeMills(postTime) {
+console.log(' ');
+console.log('postTime: '+postTime);
 	var datePcs = buildDate().split('-');
+console.log('datePcs:');
+console.log(datePcs);
 	var timePcs = postTime.split(' ');
+console.log('timePcs:');
+console.log(timePcs);
 	var hourMinutePcs = timePcs[0].split(':');
 	var hour = parseInt(hourMinutePcs[0]);
 	var minute = parseInt(hourMinutePcs[1]);
@@ -591,6 +598,9 @@ function getPostTimeMills(postTime) {
 			hour = hour + 12;
 		}
 	}
+console.log('hour: '+hour);
+console.log('minute: '+minute);
+console.log('timeDesc: '+timeDesc);
 	var postTimeObj = new Date(
 		datePcs[2], 
 		datePcs[0] - 1, // <-- subtract one to account for the date object starting at '0' for month
@@ -600,9 +610,10 @@ function getPostTimeMills(postTime) {
 		0, 
 		0
 	);
-	if(timeDesc === 'AM' && (hour > 12 && hour < 5)) {
-		// return milliseconds converted to UTC (EST + 4 hours) + 1 day
-		return postTimeObj.getTime() + 14405000 + 86400000;
+	if(timeDesc === 'AM' && (hour > 11 || hour < 5)) {
+console.log('weird conversion');
+		// return milliseconds converted to UTC (EST + 4 hours) + 12 hours
+		return postTimeObj.getTime() + 14405000 + 43200000;
 	} else {
 		// return milliseconds converted to UTC (EST + 4 hours)
 		return postTimeObj.getTime() + 14405000;
