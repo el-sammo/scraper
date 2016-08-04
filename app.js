@@ -562,7 +562,9 @@ function buildHeaders(id) {
 
 function getName(code) {
 	var nameMap = [];
+	nameMap['AP'] = 'Arlington Park';
 	nameMap['CT'] = 'Charles Town';
+	nameMap['DEL'] = 'Delaware Park';
 	nameMap['DMR'] = 'Del Mar';
 	nameMap['EMD'] = 'Emerald Downs';
 	nameMap['EVD'] = 'Evangeline Downs';
@@ -581,14 +583,8 @@ function getName(code) {
 }
 
 function getPostTimeMills(postTime) {
-console.log(' ');
-console.log('postTime: '+postTime+' (EST)');
 	var datePcs = buildDate().split('-');
-console.log('datePcs:');
-console.log(datePcs);
 	var timePcs = postTime.split(' ');
-console.log('timePcs:');
-console.log(timePcs);
 	var hourMinutePcs = timePcs[0].split(':');
 	var hour = parseInt(hourMinutePcs[0]);
 	var minute = parseInt(hourMinutePcs[1]);
@@ -598,9 +594,6 @@ console.log(timePcs);
 			hour = hour + 12;
 		}
 	}
-console.log('hour: '+hour);
-console.log('minute: '+minute);
-console.log('timeDesc: '+timeDesc);
 	var postTimeObj = new Date(
 		datePcs[2], 
 		datePcs[0] - 1, // <-- subtract one to account for the date object starting at '0' for month
@@ -610,19 +603,14 @@ console.log('timeDesc: '+timeDesc);
 		0, 
 		0
 	);
-console.log('postTimeObj:');
-console.log(postTimeObj);
 	if(timeDesc === 'AM' && hour > 11) {
-console.log('weird frequent conversion');
 		// return milliseconds converted to UTC (EST + 4 hours) + 12 hours
 		return postTimeObj.getTime() + 14405000 + 43200000;
 	}
 	if(timeDesc === 'AM' && hour > 0 && hour < 5) {
-console.log('weird rare conversion');
 		// return milliseconds converted to UTC (EST + 4 hours) + 24 hours
 		return postTimeObj.getTime() + 14405000 + 86400000;
 	}
-console.log('standard conversion');
 	// return milliseconds converted to UTC (EST + 4 hours)
 	return postTimeObj.getTime() + 14405000;
 }
