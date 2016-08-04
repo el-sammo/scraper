@@ -483,11 +483,39 @@ function load(id, data) {
 	fileContents += '  assocId = trackId.str;\n';
 	fileContents += '  var startTime = trdData.races[0].postTime;\n';
 	fileContents += '  var assocTrackId = assocId;\n';
-	fileContents += '  tournamentName = trdData.name + \' Daily\';\n';
 	fileContents += '  tournyDate = trdData.raceDate;\n';
+	fileContents += '  tournamentName = trdData.name + \' Daily\';\n';
 	fileContents += '  var tournamentMax = 100;\n';
 	fileContents += '  var entryFee = 10;\n';
 	fileContents += '  var siteFee = 1;\n';
+	fileContents += '  var closed = false;\n';
+	fileContents += '\n';
+
+	fileContents += '  db.tournaments.insert({\n';
+	fileContents += '    assocTrackId: assocTrackId,\n';
+	fileContents += '    name: tournamentName,\n';
+	fileContents += '    tournyDate: tournyDate,\n';
+	fileContents += '    max: tournamentMax,\n';
+	fileContents += '    entryFee: entryFee,\n';
+	fileContents += '    siteFee: siteFee,\n';
+	fileContents += '    startTime: startTime,\n';
+	fileContents += '    closed: closed,\n';
+	fileContents += '    customers: customers\n';
+	fileContents += '  });\n';
+	fileContents += '}\n';
+	fileContents += '\n';
+
+	fileContents += '  tournamentName = trdData.name + \' Open\';\n';
+	fileContents += '  var tournamentMax = 5;\n';
+	fileContents += '  var entryFee = 25;\n';
+	fileContents += '  var siteFee = 2.5;\n';
+	fileContents += '  var closed = false;\n';
+	fileContents += '\n';
+
+	fileContents += '  tournamentName = trdData.name + \' Open\';\n';
+	fileContents += '  var tournamentMax = 99999;\n';
+	fileContents += '  var entryFee = 5;\n';
+	fileContents += '  var siteFee = .5;\n';
 	fileContents += '  var closed = false;\n';
 	fileContents += '\n';
 
