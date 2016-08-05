@@ -113,11 +113,12 @@ console.log('postTimeMills: '+postTimeMills);
 			}
 		}
 
+		var triPointFiftyPos = race.wagerText.indexOf('50 Trifecta');
 		var triFiftyPos = race.wagerText.indexOf('50 cent Trifecta');
 		var triPos = race.wagerText.indexOf('Trifecta');
 		var TRIPos = race.wagerText.indexOf('TRIFECTA');
 		var trifecta = {abbrev: 'Tri', wager: 'Trifecta'}
-		if(triFiftyPos > -1) {
+		if(triFiftyPos > -1 || triPointFiftyPos > -1) {
 			trifecta.min = .5;
 			thisRace.wagers.push(trifecta);
 		} else {
@@ -127,19 +128,21 @@ console.log('postTimeMills: '+postTimeMills);
 			}
 		}
 
+		var supPointTenPos = race.wagerText.indexOf('10 Superfecta');
 		var supTenPos = race.wagerText.indexOf('10 cent Superfecta');
 		var SupTenPos = race.wagerText.indexOf('10 cent Super');
+		var supPointFiftyPos = race.wagerText.indexOf('50 Superfecta');
 		var supFiftyPos = race.wagerText.indexOf('50 cent Superfecta');
 		var SupFiftyPos = race.wagerText.indexOf('50 cent Super');
 		var supPos = race.wagerText.indexOf('Superfecta');
 		var SupPos = race.wagerText.indexOf('Super');
 		var SUPPos = race.wagerText.indexOf('SUPERFECTA');
 		var superfecta = {abbrev: 'Super', wager: 'Superfecta'}
-		if(supTenPos > -1 || SupTenPos > -1) {
+		if(supTenPos > -1 || SupTenPos > -1 || supPointTenPos > -1) {
 			superfecta.min = .1;
 			thisRace.wagers.push(superfecta);
 		} else {
-			if(supFiftyPos > -1 || SupFiftyPos > -1) {
+			if(supFiftyPos > -1 || SupFiftyPos > -1 || supPointFiftyPos > -1) {
 				superfecta.min = .5;
 				thisRace.wagers.push(superfecta);
 			} else {
@@ -150,10 +153,12 @@ console.log('postTimeMills: '+postTimeMills);
 			}
 		}
 
+		var penPointTenPos = race.wagerText.indexOf('10 Pentafecta');
 		var penTenPos = race.wagerText.indexOf('10 cent Pentafecta');
 		var supH5TenPos = race.wagerText.indexOf('10 cent Super High Five');
 		var shfTenPos = race.wagerText.indexOf('10 cent SHF');
 		var sh5TenPos = race.wagerText.indexOf('10 cent SH5');
+		var penPointFiftyPos = race.wagerText.indexOf('50 Pentafecta');
 		var penFiftyPos = race.wagerText.indexOf('50 cent Pentafecta');
 		var supH5FiftyPos = race.wagerText.indexOf('50 cent Super High Five');
 		var shfFiftyPos = race.wagerText.indexOf('50 cent SHF');
@@ -166,8 +171,10 @@ console.log('postTimeMills: '+postTimeMills);
 		var SHFPos = race.wagerText.indexOf('SHF');
 		var sh5Pos = race.wagerText.indexOf('sh5');
 		var SH5Pos = race.wagerText.indexOf('SH5');
+		var SupHi5Pos = race.wagerText.indexOf('1 Super Hi 5');
 		var pentafecta = {abbrev: 'SH5', wager: 'Pentafecta'}
 		if(
+			penPointTenPos > -1 ||
 			penTenPos > -1 ||
 			supH5TenPos > -1 ||
 			shfTenPos > -1 ||
@@ -177,6 +184,7 @@ console.log('postTimeMills: '+postTimeMills);
 			thisRace.wagers.push(pentafecta);
 		} else {
 			if(
+				penPointFiftyPos > -1 ||
 				penFiftyPos > -1 ||
 				supH5FiftyPos > -1 ||
 				shfFiftyPos > -1 ||
@@ -186,6 +194,7 @@ console.log('postTimeMills: '+postTimeMills);
 				thisRace.wagers.push(pentafecta);
 			} else {
 				if(
+					SupHi5Pos > - 1 ||
 					penPos > -1 || PENPos > -1 ||
 					supH5Pos > -1 || SUPH5Pos > -1 ||
 					shfPos > -1 || SHFPos > -1 ||
@@ -221,6 +230,7 @@ console.log('postTimeMills: '+postTimeMills);
 		var p3Pos = race.wagerText.indexOf('P3');
 		var pThrPos = race.wagerText.indexOf('Pick Three');
 		var PTHRPos = race.wagerText.indexOf('PICK THREE');
+		var bet3Pos = race.wagerText.indexOf('1 Bet 3');
 		var pick3 = {abbrev: 'P3', wager: 'Pick 3'}
 		if(
 			pic3TwentyPos > -1 ||
@@ -240,7 +250,7 @@ console.log('postTimeMills: '+postTimeMills);
 			} else {
 				if(
 					pic3Pos > -1 || PIC3Pos > -1 ||
-					p3Pos > -1 ||
+					p3Pos > -1 || bet3Pos > -1 ||
 					pThrPos > -1 || PTHRPos > -1
 				) {
 					pick3.min = 1;
@@ -255,6 +265,7 @@ console.log('postTimeMills: '+postTimeMills);
 		var pic4FiftyPos = race.wagerText.indexOf('50 cent Pick 4');
 		var p4FiftyPos = race.wagerText.indexOf('50 cent P4');
 		var pFrFiftyPos = race.wagerText.indexOf('50 cent Pick Four');
+		var p4PointFiftyPos = race.wagerText.indexOf('50 Pick 4');
 		var pic4Pos = race.wagerText.indexOf('Pick 4');
 		var PIC4Pos = race.wagerText.indexOf('PICK 4');
 		var p4Pos = race.wagerText.indexOf('P4');
@@ -270,6 +281,7 @@ console.log('postTimeMills: '+postTimeMills);
 			thisRace.wagers.push(pick4);
 		} else {
 			if(
+				p4PointFiftyPos > -1 ||
 				pic4FiftyPos > -1 ||
 				p4FiftyPos > -1 ||
 				pFrFiftyPos > -1
@@ -294,6 +306,7 @@ console.log('postTimeMills: '+postTimeMills);
 		var pic5FiftyPos = race.wagerText.indexOf('50 cent Pick 5');
 		var p5FiftyPos = race.wagerText.indexOf('50 cent P5');
 		var pFivFiftyPos = race.wagerText.indexOf('50 cent Pick Five');
+		var p5PointFiftyPos = race.wagerText.indexOf('50 Pick 5');
 		var pic5Pos = race.wagerText.indexOf('Pick 5');
 		var PIC5Pos = race.wagerText.indexOf('PICK 5');
 		var p5Pos = race.wagerText.indexOf('P5');
@@ -309,6 +322,7 @@ console.log('postTimeMills: '+postTimeMills);
 			thisRace.wagers.push(pick5);
 		} else {
 			if(
+				p5PointFiftyPos > -1 ||
 				pic5FiftyPos > -1 ||
 				p5FiftyPos > -1 ||
 				pFivFiftyPos > -1
@@ -330,6 +344,7 @@ console.log('postTimeMills: '+postTimeMills);
 		var pic6TwentyPos = race.wagerText.indexOf('20 cent Pick 6');
 		var p6TwentyPos = race.wagerText.indexOf('20 cent P6');
 		var pSixTwentyPos = race.wagerText.indexOf('20 cent Pick Six');
+		var pSixRainbowTwentyPos = race.wagerText.indexOf('20 Rainbow Pick 6');
 		var pic6FiftyPos = race.wagerText.indexOf('50 cent Pick 6');
 		var p6FiftyPos = race.wagerText.indexOf('50 cent P6');
 		var pSixFiftyPos = race.wagerText.indexOf('50 cent Pick Six');
@@ -345,6 +360,7 @@ console.log('postTimeMills: '+postTimeMills);
 		var PSIXPos = race.wagerText.indexOf('PICK SIX');
 		var pick6 = {abbrev: 'P6', wager: 'Pick 6'}
 		if(
+			pSixRainbowTwentyPos > -1 ||
 			pic6TwentyPos > -1 ||
 			p6TwentyPos > -1 ||
 			pSixTwentyPos > -1
