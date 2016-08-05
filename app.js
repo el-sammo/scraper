@@ -502,14 +502,26 @@ function load(id, data) {
 	fileContents += '    closed: closed,\n';
 	fileContents += '    customers: customers\n';
 	fileContents += '  });\n';
-	fileContents += '}\n';
 	fileContents += '\n';
 
-	fileContents += '  tournamentName = trdData.name + \' Open\';\n';
+	fileContents += '  tournamentName = trdData.name + \' Limited\';\n';
 	fileContents += '  var tournamentMax = 5;\n';
 	fileContents += '  var entryFee = 25;\n';
 	fileContents += '  var siteFee = 2.5;\n';
 	fileContents += '  var closed = false;\n';
+	fileContents += '\n';
+
+	fileContents += '  db.tournaments.insert({\n';
+	fileContents += '    assocTrackId: assocTrackId,\n';
+	fileContents += '    name: tournamentName,\n';
+	fileContents += '    tournyDate: tournyDate,\n';
+	fileContents += '    max: tournamentMax,\n';
+	fileContents += '    entryFee: entryFee,\n';
+	fileContents += '    siteFee: siteFee,\n';
+	fileContents += '    startTime: startTime,\n';
+	fileContents += '    closed: closed,\n';
+	fileContents += '    customers: customers\n';
+	fileContents += '  });\n';
 	fileContents += '\n';
 
 	fileContents += '  tournamentName = trdData.name + \' Open\';\n';
