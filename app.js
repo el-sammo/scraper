@@ -210,6 +210,9 @@ console.log('postTimeMills: '+postTimeMills);
 			}
 		}
 
+		// checking for confusing language
+		var secondHalfDaiPos = race.wagerText.indexOf('Second Half of Middle Daily Double');
+
 		var daiPos = race.wagerText.indexOf('Double');
 		var DAIPos = race.wagerText.indexOf('DOUBLE');
 		var ddPos = race.wagerText.indexOf('dd');
@@ -218,6 +221,7 @@ console.log('postTimeMills: '+postTimeMills);
 		if(
 			daiPos > -1 || DAIPos > -1 ||
 			ddPos > -1 || DDPos > -1
+			&& secondHalfDaiPos < 0 // <-- making sure we aren't finding bad language
 		) {
 			daily.min = 1;
 			thisRace.wagers.push(daily);
