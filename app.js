@@ -128,9 +128,11 @@ console.log('postTimeMills: '+postTimeMills);
 			}
 		}
 
+		var supParenTenPos = race.wagerText.indexOf('Superfecta (10-cent min)');
 		var supPointTenPos = race.wagerText.indexOf('10 Superfecta');
 		var supTenPos = race.wagerText.indexOf('10 cent Superfecta');
 		var SupTenPos = race.wagerText.indexOf('10 cent Super');
+		var supParenFiftyPos = race.wagerText.indexOf('Superfecta (50-cent min)');
 		var supPointFiftyPos = race.wagerText.indexOf('50 Superfecta');
 		var supFiftyPos = race.wagerText.indexOf('50 cent Superfecta');
 		var SupFiftyPos = race.wagerText.indexOf('50 cent Super');
@@ -138,11 +140,13 @@ console.log('postTimeMills: '+postTimeMills);
 		var SupPos = race.wagerText.indexOf('Super');
 		var SUPPos = race.wagerText.indexOf('SUPERFECTA');
 		var superfecta = {abbrev: 'Super', wager: 'Superfecta'}
-		if(supTenPos > -1 || SupTenPos > -1 || supPointTenPos > -1) {
+		if(supTenPos > -1 || SupTenPos > -1 || 
+			supPointTenPos > -1 || supParenTenPos > -1) {
 			superfecta.min = .1;
 			thisRace.wagers.push(superfecta);
 		} else {
-			if(supFiftyPos > -1 || SupFiftyPos > -1 || supPointFiftyPos > -1) {
+			if(supFiftyPos > -1 || SupFiftyPos > -1 || 
+				supPointFiftyPos > -1 || supParenFiftyPos > -1) {
 				superfecta.min = .5;
 				thisRace.wagers.push(superfecta);
 			} else {
@@ -634,6 +638,7 @@ function getName(code) {
 	nameMap['PRX'] = 'Parx';
 	nameMap['SAR'] = 'Saratoga';
 	nameMap['SR'] = 'Santa Rosa';
+	nameMap['SUF'] = 'Suffolk Downs';
 	nameMap['WO'] = 'Woodbine';
 	return nameMap[code];
 }
