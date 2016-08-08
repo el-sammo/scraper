@@ -540,6 +540,24 @@ function load(id, data) {
 	fileContents += '  \'57a37669bc6bda21e53013cf\',\n';
 	fileContents += '  \'57a37669bc6bda21e530149b\',\n';
 	fileContents += '  \'57a37669bc6bda21e53013d8\',\n';
+	fileContents += '  \'57a37669bc6bda21e5301730\',\n';
+	fileContents += '  \'57a37669bc6bda21e530173d\',\n';
+	fileContents += '  \'57a37669bc6bda21e530173e\',\n';
+	fileContents += '  \'57a37669bc6bda21e530173f\',\n';
+	fileContents += '  \'57a37669bc6bda21e5301740\',\n';
+	fileContents += '  \'57a37669bc6bda21e5301741\',\n';
+	fileContents += '  \'57a37669bc6bda21e5301742\',\n';
+	fileContents += '  \'57a3766abc6bda21e5301956\',\n';
+	fileContents += '  \'57a3766abc6bda21e5301957\',\n';
+	fileContents += '  \'57a3766abc6bda21e5301958\',\n';
+	fileContents += '  \'57a3766abc6bda21e53019e9\',\n';
+	fileContents += '  \'57a3766abc6bda21e53019ea\',\n';
+	fileContents += '  \'57a3766abc6bda21e53019eb\',\n';
+	fileContents += '  \'57a3766abc6bda21e53019ec\',\n';
+	fileContents += '  \'57a3766abc6bda21e5301a0b\',\n';
+	fileContents += '  \'57a3766abc6bda21e5301a0c\',\n';
+	fileContents += '  \'57a3766abc6bda21e5301a0d\',\n';
+	fileContents += '  \'57a3766abc6bda21e5301a0e\',\n';
 	fileContents += '];\n';
 	fileContents += '\n';
 
@@ -563,6 +581,24 @@ function load(id, data) {
 	fileContents += '  {customerId: \'57a37669bc6bda21e53013cf\', credits: 500},\n';
 	fileContents += '  {customerId: \'57a37669bc6bda21e530149b\', credits: 500},\n';
 	fileContents += '  {customerId: \'57a37669bc6bda21e53013d8\', credits: 500},\n';
+	fileContents += '  {customerId: \'57a37669bc6bda21e5301730\', credits: 500},\n';
+	fileContents += '  {customerId: \'57a37669bc6bda21e530173d\', credits: 500},\n';
+	fileContents += '  {customerId: \'57a37669bc6bda21e530173e\', credits: 500},\n';
+	fileContents += '  {customerId: \'57a37669bc6bda21e530173f\', credits: 500},\n';
+	fileContents += '  {customerId: \'57a37669bc6bda21e5301740\', credits: 500},\n';
+	fileContents += '  {customerId: \'57a37669bc6bda21e5301741\', credits: 500},\n';
+	fileContents += '  {customerId: \'57a37669bc6bda21e5301742\', credits: 500},\n';
+	fileContents += '  {customerId: \'57a3766abc6bda21e5301956\', credits: 500},\n';
+	fileContents += '  {customerId: \'57a3766abc6bda21e5301957\', credits: 500},\n';
+	fileContents += '  {customerId: \'57a3766abc6bda21e5301958\', credits: 500},\n';
+	fileContents += '  {customerId: \'57a3766abc6bda21e53019e9\', credits: 500},\n';
+	fileContents += '  {customerId: \'57a3766abc6bda21e53019ea\', credits: 500},\n';
+	fileContents += '  {customerId: \'57a3766abc6bda21e53019eb\', credits: 500},\n';
+	fileContents += '  {customerId: \'57a3766abc6bda21e53019ec\', credits: 500},\n';
+	fileContents += '  {customerId: \'57a3766abc6bda21e5301a0b\', credits: 500},\n';
+	fileContents += '  {customerId: \'57a3766abc6bda21e5301a0c\', credits: 500},\n';
+	fileContents += '  {customerId: \'57a3766abc6bda21e5301a0d\', credits: 500},\n';
+	fileContents += '  {customerId: \'57a3766abc6bda21e5301a0e\', credits: 500},\n';
 	fileContents += '];\n';
 	fileContents += '\n';
 
@@ -579,6 +615,7 @@ function load(id, data) {
 	fileContents += 'while(cursor.hasNext()) {\n';
 	fileContents += '  var trdData = cursor.next();\n';
 	fileContents += '  var trackId = trdData._id;\n';
+	fileContents += '  var trackPremium = trdData.premium;\n';
 	fileContents += '  assocId = trackId.str;\n';
 	fileContents += '  var startTime = trdData.races[0].postTime;\n';
 	fileContents += '  var assocTrackId = assocId;\n';
@@ -593,6 +630,7 @@ function load(id, data) {
 	fileContents += '  db.tournaments.insert({\n';
 	fileContents += '    assocTrackId: assocTrackId,\n';
 	fileContents += '    name: tournamentName,\n';
+	fileContents += '    premium: trackPremium,\n';
 	fileContents += '    tournyDate: tournyDate,\n';
 	fileContents += '    max: tournamentMax,\n';
 	fileContents += '    entryFee: entryFee,\n';
