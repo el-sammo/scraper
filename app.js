@@ -123,6 +123,7 @@ console.log('postTimeMills: '+postTimeMills);
 		var triMinPointFiftyPos = race.wagerText.indexOf('Trifecta (min .50 cent)');
 		var triPointFiftyPos = race.wagerText.indexOf('50 Trifecta');
 		var triParenFiftyHyphenPos = race.wagerText.indexOf('Trifecta (50-cent min');
+		var triParenFiftyPointHyphenPos = race.wagerText.indexOf('Trifecta (50-cent. min.)');
 		var triHyphenPointFiftyPos = race.wagerText.indexOf('50-Cent Trifecta');
 		var triNoHyphenPointFiftyPos = race.wagerText.indexOf('50 Cent Trifecta');
 		var triCommaPointFiftyPos = race.wagerText.indexOf('Trifecta (.50),');
@@ -135,6 +136,7 @@ console.log('postTimeMills: '+postTimeMills);
 			triFiftyPos > -1 || 
 			triPointFiftyPos > -1 || 
 			triParenFiftyHyphenPos > -1 || 
+			triParenFiftyPointHyphenPos > -1 || 
 			triCommaPointFiftyPos > -1 || 
 			triHyphenPointFiftyPos > -1 ||
 			triNoHyphenPointFiftyPos > -1
@@ -221,7 +223,9 @@ console.log('postTimeMills: '+postTimeMills);
 		var SHFPos = race.wagerText.indexOf('SHF');
 		var sh5Pos = race.wagerText.indexOf('sh5');
 		var SH5Pos = race.wagerText.indexOf('SH5');
-		var SupHi5Pos = race.wagerText.indexOf('1 Super Hi 5');
+		var SupHi5Pos = race.wagerText.indexOf('Super Hi 5');
+		var Sup1Hi5Pos = race.wagerText.indexOf('1 Super Hi 5');
+		var Sup1High5Pos = race.wagerText.indexOf('$1 Super High 5');
 		var pentafecta = {abbrev: 'SH5', wager: 'Pentafecta'}
 		if(
 			penPointTenPos > -1 ||
@@ -246,6 +250,8 @@ console.log('postTimeMills: '+postTimeMills);
 			} else {
 				if(
 					SupHi5Pos > - 1 ||
+					Sup1Hi5Pos > - 1 ||
+					Sup1High5Pos > - 1 ||
 					penPos > -1 || PENPos > -1 ||
 					supH5Pos > -1 || SUPH5Pos > -1 ||
 					shfPos > -1 || SHFPos > -1 ||
@@ -260,6 +266,7 @@ console.log('postTimeMills: '+postTimeMills);
 		// checking for confusing language
 		var secondHalfDDPos = race.wagerText.indexOf('Second Half Daily Double');  // <-- this isn't catching for Parx (for instance)
 		var secondHalfDaiPos = race.wagerText.indexOf('Second Half of Middle Daily Double');
+		var secondHalfEarlyDaiPos = race.wagerText.indexOf('Second Half $2 Early Daily Double');
 
 		var dai2EarlyPos = race.wagerText.indexOf('$2 Early Daily Double');
 		var dai2RollPos = race.wagerText.indexOf('$2 Rolling Double');
@@ -274,17 +281,27 @@ console.log('postTimeMills: '+postTimeMills);
 			DAIPos > -1 ||
 			ddPos > -1 
 			|| DDPos > -1
+			&& dai2EarlyPos < 0 // <-- making sure we aren't finding bad language
 			&& dai2RollPos < 0 // <-- making sure we arent overlapping
 			&& dai2DDPos < 0 // <-- making sure we arent overlapping
-			&& dai2EarlyPos < 0 // <-- making sure we aren't finding bad language
-			&& secondHalfDaiPos < 0 // <-- making sure we aren't finding bad language
 			&& secondHalfDDPos < 0 // <-- making sure we aren't finding bad language
+			&& secondHalfDaiPos < 0 // <-- making sure we aren't finding bad language
+			&& secondHalfEarlyDaiPos < 0 // <-- making sure we aren't finding bad language
 		) {
 			daily.min = 1;
 			thisRace.wagers.push(daily);
 		} else {
-			daily.min = 2;
-			thisRace.wagers.push(daily);
+			if(
+				dai2EarlyPos > -1 ||
+				dai2RollPos > -1 ||
+				dai2DDPos > -1
+				&& secondHalfDDPos < 0 // <-- making sure we aren't finding bad language
+				&& secondHalfDaiPos < 0 // <-- making sure we aren't finding bad language
+				&& secondHalfEarlyDaiPos < 0 // <-- making sure we aren't finding bad language
+			) {
+				daily.min = 2;
+				thisRace.wagers.push(daily);
+			}
 		}
 
 
@@ -426,6 +443,7 @@ console.log('postTimeMills: '+postTimeMills);
 		var p5FiftyPos = race.wagerText.indexOf('50 cent P5');
 		var pFivFiftyPos = race.wagerText.indexOf('50 cent Pick Five');
 		var p5PointFiftyPos = race.wagerText.indexOf('50 Pick 5');
+		var p5ParenPointFiftyPos = race.wagerText.indexOf('($.50) Pick 5');
 		var p5ParentPointFiftyPos = race.wagerText.indexOf('Pick 5 ( min .50 cent)');
 		var pic5Pos = race.wagerText.indexOf('Pick 5');
 		var PIC5Pos = race.wagerText.indexOf('PICK 5');
@@ -449,6 +467,7 @@ console.log('postTimeMills: '+postTimeMills);
 				pic5HyphenFiftycPos > -1 ||
 				pic5ParenWCOFiftyPos > -1 ||
 				pic5ParenWOCOFiftyPos > -1 ||
+				p5ParenPointFiftyPos > -1 ||
 				p5ParentPointFiftyPos > -1 ||
 				pFivFiftyPos > -1
 			) {
