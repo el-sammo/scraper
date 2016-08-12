@@ -157,7 +157,7 @@ console.log('postTimeMills: '+postTimeMills);
 		var supParenTenPos = race.wagerText.indexOf('Superfecta (10-cent min)');
 		var supParenPeriodTenPos = race.wagerText.indexOf('Superfecta (10-cent min.)');
 		var SUPParenTenPos = race.wagerText.indexOf('SUPERFECTA (10 Cent Minimum)');
-		var supLongTenPos = race.wagerText.indexOf('Superfecta (.10 cent minimum)');
+		var supLongTenPos = race.wagerText.indexOf('Superfecta (.10 cent minimum');
 		var supHyphenTenPos = race.wagerText.indexOf('10-Cent Superfecta');
 		var supCommaTenPos = race.wagerText.indexOf('Super (.10)');
 		var supPointTenPos = race.wagerText.indexOf('10 Superfecta');
