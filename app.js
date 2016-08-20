@@ -875,6 +875,7 @@ function getName(code) {
 	nameMap['EMD'] = 'Emerald Downs';
 	nameMap['EVD'] = 'Evangeline Downs';
 	nameMap['FL'] = 'Finger Lakes';
+	nameMap['GG'] = 'Golden Gate';
 	nameMap['GP'] = 'Gulfstream Park';
 	nameMap['LA'] = 'Los Alamitos';
 	nameMap['LAD'] = 'Louisiana Downs';
